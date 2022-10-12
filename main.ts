@@ -1,9 +1,16 @@
-
+function shift_right() {
+    SuperBit.MotorRun(SuperBit.enMotors.M1, -255)
+    SuperBit.MotorRun(SuperBit.enMotors.M2, 255)
+    SuperBit.MotorRun(SuperBit.enMotors.M3, 255)
+    SuperBit.MotorRun(SuperBit.enMotors.M4, -255)
+}
 function push(speed: number, turnIndex: number) {
     // speed: -255 to 255
     // turnIndex: -1 to 1
-    torgue = 100
-    if (turnIndex <= -0.15) {
+    const sensitivity = 1.2;
+    const torgue = 70;
+    speed *= 1.2
+    if (turnIndex <= -0.3) {
         // front-left
         SuperBit.MotorRun(SuperBit.enMotors.M1, speed + torgue * Math.abs(turnIndex))
         // hind-left
@@ -12,7 +19,7 @@ function push(speed: number, turnIndex: number) {
         SuperBit.MotorRun(SuperBit.enMotors.M3, speed - torgue * Math.abs(turnIndex))
         // hind-right
         SuperBit.MotorRun(SuperBit.enMotors.M4, speed - torgue * Math.abs(turnIndex))
-    } else if (turnIndex >= 0.15) {
+    } else if (turnIndex >= 0.3) {
         // front-left
         SuperBit.MotorRun(SuperBit.enMotors.M1, speed - torgue * Math.abs(turnIndex))
         // hind-left
@@ -38,12 +45,6 @@ function shift_left() {
     SuperBit.MotorRun(SuperBit.enMotors.M3, -255)
     SuperBit.MotorRun(SuperBit.enMotors.M4, 255)
 }
-function shift_right() {
-    SuperBit.MotorRun(SuperBit.enMotors.M1, -255)
-    SuperBit.MotorRun(SuperBit.enMotors.M2, 255)
-    SuperBit.MotorRun(SuperBit.enMotors.M3, 255)
-    SuperBit.MotorRun(SuperBit.enMotors.M4, -255)
-}
 radio.onReceivedValue(function (name, value) {
     mapValueToVar(name, value)
     if (left && !(right)) {
@@ -51,7 +52,7 @@ radio.onReceivedValue(function (name, value) {
     } else if (!(left) && right) {
         shift_right()
     } else {
-        push((y + 90) / 180 * 255, (x + 40) / 180)
+        push(y / 180 * 255, x / 180)
     }
 })
 function mapValueToVar(key: string, value: number) {
@@ -69,5 +70,5 @@ let x = 0
 let y = 0
 let right = 0
 let left = 0
-let torgue = 0
+
 radio.setGroup(1)
