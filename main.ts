@@ -9,7 +9,7 @@ function push(speed: number, turnIndex: number) {
     // turnIndex: -1 to 1
     const sensitivity = 1.2;
     const torgue = 70;
-    speed *= 1.2
+    speed *= sensitivity
     if (turnIndex <= -0.3) {
         // front-left
         SuperBit.MotorRun(SuperBit.enMotors.M1, speed + torgue * Math.abs(turnIndex))
@@ -52,7 +52,7 @@ radio.onReceivedValue(function (name, value) {
     } else if (!(left) && right) {
         shift_right()
     } else {
-        push(y / 180 * 255, x / 180)
+        push(y / 100 * 255, x / 100)
     }
 })
 function mapValueToVar(key: string, value: number) {
